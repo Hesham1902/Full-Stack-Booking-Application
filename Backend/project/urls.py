@@ -25,5 +25,7 @@ urlpatterns = [
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('', include('rest_framework.urls')),
-    path('studio/', include(('studio.api.urls', 'studios'), namespace='studios'))
+    path('studio/', include(('studio.api.urls', 'studios'), namespace='studios')),
+    path('auth/', include(('authentication.api.urls', 'authentication'), namespace='authentication')),
+    path('reservation/', include(('reservation.api.urls', 'reservation'), namespace='reservation'))
 ]

@@ -11,13 +11,4 @@ urlpatterns = [
     path('api/v1/delete/<int:pk>/', views.DeleteStudioView.as_view(), name='delete_studio'),
 ]
 
-# urlpatterns = [
-#     # path('admin/', admin.site.urls),
-#     path('api/v1/getAll', views.add_studio, name='add_studio'),
-#     path('api/v1/add', views.add_studio, name='add_studio'),
-#     path('api/v1/update/<int:id>', views.update_studio, name='update_studio'),
-#     path('api/v1/getone/<int:id>', views.getone_studio, name='getone_studio'),
-#     path('api/v1/delete/<int:id>', views.delete_studio, name='delete_studio'),
-# ]
-
 
