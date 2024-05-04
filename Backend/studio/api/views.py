@@ -1,7 +1,6 @@
-from rest_framework import generics, status
-from rest_framework.response import Response
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated,AllowAny
-from .permissions import IsStudioOwner
+from .permissions import IsStudioOwnerType
 from .serializers import StudioSerializer
 from ..models import Studio
 
@@ -16,16 +15,15 @@ class AllStudiosListView(generics.ListAPIView):
 # Add Studio
 class AddStudioView(generics.CreateAPIView):
     serializer_class = StudioSerializer
-    permission_classes = [IsAuthenticated, IsStudioOwner]
+    permission_classes = [IsAuthenticated, IsStudioOwnerType]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-
 # Update One
 class UpdateStudioView(generics.UpdateAPIView):
     serializer_class = StudioSerializer
-    permission_classes = [IsAuthenticated, IsStudioOwner]
+    permission_classes = [IsAuthenticated, IsStudioOwnerType]
     queryset = Studio.objects.all()
 
 
@@ -38,10 +36,9 @@ class GetOneStudioView(generics.RetrieveAPIView):
     serializer_class = StudioSerializer
     queryset = Studio.objects.all()
 
-
 #Delete
 class DeleteStudioView(generics.DestroyAPIView):
-    permission_classes = [IsAuthenticated, IsStudioOwner]
+    permission_classes = [IsAuthenticated, IsStudioOwnerType]
     queryset = Studio.objects.all()
 
 #Get My studios
@@ -57,5 +54,3 @@ class UserStudiosListView(generics.ListAPIView):
         return Studio.objects.filter(owner=user)
 
 
-
-#TODO6: ENDPOINT for getting all the reservations on this studio
