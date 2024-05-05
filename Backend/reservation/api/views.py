@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from studio.api import permissions
+from studio.api.permissions import IsStudioOwnerType
 from studio.models import Studio
 from ..models import Reservation
 from .serializers import ReservationSerializer
@@ -59,9 +59,10 @@ def create_reservation(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# user can cancle his reservation within 15 mins from creation time after that he can't
 @api_view(["DELETE"])
 @permission_classes([IsAuthenticated])
-def delete_reservation(request, reservation_id):
+def cancel_reservation(request, reservation_id):
     try:
         reservation = Reservation.objects.get(id=reservation_id)
     except Reservation.DoesNotExist:
@@ -89,13 +90,35 @@ def delete_reservation(request, reservation_id):
     )
 
 
+# Admins and Owners route to cancle any reservation
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def admin_cancel_reservation(request, reservation_id):
+    try:
+        reservation = Reservation.objects.get(id=reservation_id)
+    except Reservation.DoesNotExist:
+        return Response(
+            {"error": "Reservation not found"}, status=status.HTTP_404_NOT_FOUND
+        )
+    if not ((reservation.studio.owner == request.user) or (request.user.is_staff)):
+        return Response(
+            {"error": "Not authorized to delete this reservation"}, status=status.HTTP_401_UNAUTHORIZED
+        )
+
+    reservation.delete()
+    return Response(
+        {"message": "Reservation deleted successfully"},
+        status=status.HTTP_204_NO_CONTENT,
+    )
+
+
 @api_view(["GET"])
 def reservation_details(request, reservation_id):
     reservation = Reservation.objects.get(id=reservation_id)
     return Response(reservation)
 
 
-# users can get his reservations
+# Users can get his reservations
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_my_reservations(request):
@@ -105,8 +128,9 @@ def get_my_reservations(request):
     return Response(serialize.data)
 
 
+
 @api_view(["GET"])
-@permission_classes([IsAuthenticated, permissions.IsStudioOwnerType])
+@permission_classes([IsAuthenticated, IsStudioOwnerType])
 def studios_reservations(request):
 
     owned_studios = request.user.studios.all()

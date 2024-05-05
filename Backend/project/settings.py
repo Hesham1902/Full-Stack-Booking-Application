@@ -43,7 +43,7 @@ REST_FRAMEWORK = {
 
 INSTALLED_APPS = [
     #app
-    'rest_framework',   
+    'rest_framework',
     'authentication',
     'studio',
     'reservation',
