@@ -11,7 +11,7 @@ class Studio(models.Model):
     end_time = models.TimeField()  # Closing time of the studio
     price_per_day = models.DecimalField(max_digits=10, decimal_places=2)  # Price per day for the studio
     address = models.CharField(max_length=255)
-    rate = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)  # Average rating of the studio
+    rate = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True, default=0)  # Average rating of the studio
     status = models.BooleanField(default=False)  # Status indicating if the studio is currently available
     reservations = models.JSONField(default=list)  # Store as list of dates
 

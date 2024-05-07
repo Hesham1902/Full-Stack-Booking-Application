@@ -1,15 +1,21 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from django_filters import rest_framework as filters
+
+from studio.filters import StudioFilter
 
 from .permissions import IsStudioOwnerType
 from .serializers import StudioSerializer
 from ..models import Studio
 
+
 class AllStudiosListView(generics.ListAPIView):
     queryset = Studio.objects.all()
     permission_classes = [AllowAny]
     serializer_class = StudioSerializer
-
+    filterset_class = StudioFilter
+    filter_backends = (filters.DjangoFilterBackend,)
+ 
 
 # Add Studio
 class AddStudioView(generics.CreateAPIView):
