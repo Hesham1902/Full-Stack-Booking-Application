@@ -6,6 +6,9 @@ interface StudioCardProps {
   title: string;
   location: string;
   path: string;
+  price_per_day: string;
+  start_time: string;
+  end_time: string;
 }
 
 const StudioCard = ({ img, title, location, path }: StudioCardProps) => {

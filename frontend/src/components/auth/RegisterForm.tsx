@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterInputs } from "../../types";
@@ -7,17 +7,20 @@ import { RegisterSchema } from "../../utils/schema";
 import InputForm from "./InputForm";
 import SelectForm from "./SelectForm";
 import Button from "../utils/Button";
+import api from "../../api";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
   const [userType, setUserType] = useState("user");
+  const [isRegistered, setIsRegistered] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<RegisterInputs>({
     defaultValues: {
-      full_name: "",
+      username: "",
       email: "",
       password: "",
       confirm_password: "",
@@ -27,23 +30,38 @@ const RegisterForm = () => {
     resolver: yupResolver(RegisterSchema),
   });
 
-  const onSubmit: SubmitHandler<RegisterInputs> = ({
-    full_name,
+  const onSubmit: SubmitHandler<RegisterInputs> = async ({
+    username,
     email,
     password,
   }) => {
-    console.log({ full_name, email, password, user_type: userType });
-    navigate("/login");
+    try {
+      console.log({ username, email, password, user_type: userType });
+      await api.post("auth/api/register/", {
+        username,
+        email,
+        password,
+        user_type: userType,
+      });
+      setIsRegistered(true);
+      navigate("/login");
+    } catch (error) {
+      alert(`Registration failed:${error}`);
+    }
   };
+
+  if (isRegistered) {
+    return <Navigate to="/login" />;
+  }
 
   const inputsForm = [
     {
-      label: "Full Name",
+      label: "Username",
       type: "text",
-      name: "full_name",
-      placeholder: "Enter your full name",
-      register: register("full_name"),
-      error: errors.full_name,
+      name: "username",
+      placeholder: "Enter your username",
+      register: register("username"),
+      error: errors.username,
     },
     {
       label: "Email",

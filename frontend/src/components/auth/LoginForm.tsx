@@ -6,6 +6,8 @@ import { LoginInputs } from "../../types";
 import { LoginSchema } from "../../utils/schema";
 import InputForm from "./InputForm";
 import Button from "../utils/Button";
+import api from "../../api";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -15,26 +17,35 @@ const LoginForm = () => {
     formState: { errors, isValid },
   } = useForm<LoginInputs>({
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
     mode: "all",
     resolver: yupResolver(LoginSchema),
   });
 
-  const onSubmit: SubmitHandler<LoginInputs> = ({ email, password }) => {
-    console.log({ email, password });
+  const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
+    try {
+      console.log(data);
+      const res = await api.post("/api/token/", data);
+      localStorage.setItem(ACCESS_TOKEN, res.data.access);
+      localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+      navigate("/");
+    } catch (error) {
+      alert(error);
+    }
+
     navigate("/");
   };
 
   const inputsForm = [
     {
-      label: "Email",
-      type: "email",
-      name: "email",
-      placeholder: "Enter your email",
-      register: register("email"),
-      error: errors.email,
+      label: "Username",
+      type: "username",
+      name: "username",
+      placeholder: "Enter your username",
+      register: register("username"),
+      error: errors.username,
     },
     {
       label: "Password",

@@ -1,5 +1,5 @@
 interface RegisterInputs {
-  full_name: string;
+  username: string;
   email: string;
   password: string;
   confirm_password: string;
@@ -7,7 +7,7 @@ interface RegisterInputs {
 }
 
 interface LoginInputs {
-  email: string;
+  username: string;
   password: string;
 }
 

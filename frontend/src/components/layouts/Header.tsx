@@ -1,11 +1,24 @@
 import { Link } from "react-router-dom";
 import logo from "/images/logo.svg";
 import profile from "/images/profile.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuSvg from "../utils/svg/MenuSvg";
+import { ACCESS_TOKEN } from "../../constants";
 
 const Header = () => {
-  const [isLogin] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    if (accessToken) {
+      setIsLogin(true);
+    }
+  }, []);
+
+  const handleMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <header className="bg-white sticky top-0 w-full py-5 shadow-md z-50">
@@ -54,9 +67,33 @@ const Header = () => {
               </div>
             )}
 
-            <button type="button">
+            <button type="button" onClick={handleMenuClick}>
               <MenuSvg />
             </button>
+            {isMenuOpen && (
+              <div className="absolute mt-12 top-4 ml-16 bg-white border border-gray-200 rounded-md shadow-lg">
+                <div className="py-1">
+                  <Link
+                    to="/dashboard"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    to="/profile"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Profile
+                  </Link>
+                  <Link
+                    to="/logout"
+                    className="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
+                  >
+                    Logout
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

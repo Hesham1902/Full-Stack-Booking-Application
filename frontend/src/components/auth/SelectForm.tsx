@@ -1,6 +1,7 @@
 import { useState } from "react";
 import arrowDown from "/images/arrow_down.png";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SelectForm = ({ userType, setUserType }: any) => {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -51,9 +52,9 @@ const SelectForm = ({ userType, setUserType }: any) => {
             </li>
             <li
               className="p-4 hover:bg-primary hover:text-white"
-              onClick={() => handleSelectUserType("admin")}
+              onClick={() => handleSelectUserType("studio_owner")}
             >
-              Admin
+              Studio Owner
             </li>
           </ul>
         )}
