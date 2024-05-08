@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,9 +8,12 @@ import InputForm from "./InputForm";
 import Button from "../utils/Button";
 import api from "../../api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
+import { AuthContext } from "../../context/AuthContext";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null); // State to store error message
+  const { fetchProfile } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -26,16 +29,14 @@ const LoginForm = () => {
 
   const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
     try {
-      console.log(data);
       const res = await api.post("/api/token/", data);
       localStorage.setItem(ACCESS_TOKEN, res.data.access);
       localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+      fetchProfile();
       navigate("/");
     } catch (error) {
-      alert(error);
+      setError("Invalid username or password"); // Set error message if login fails
     }
-
-    navigate("/");
   };
 
   const inputsForm = [
@@ -88,6 +89,8 @@ const LoginForm = () => {
             <InputForm {...input} />
           </Fragment>
         ))}
+
+        {error && <p className="text-red-500 text-sm font-medium">{error}</p>}
 
         <Button type="submit" disabled={!isValid} title="Sign in" />
       </form>

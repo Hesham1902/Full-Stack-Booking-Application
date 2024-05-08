@@ -1,18 +1,23 @@
 import { Link } from "react-router-dom";
 import logo from "/images/logo.svg";
 import profile from "/images/profile.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MenuSvg from "../utils/svg/MenuSvg";
 import { ACCESS_TOKEN } from "../../constants";
+import { AuthContext } from "../../context/AuthContext";
 
-const Header = () => {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+const Header: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  // const [userType, setUserType] = useState<string | null>(null);
+
+  const { userData, setUserData, fetchProfile } = useContext(AuthContext);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const accessToken: string | null = localStorage.getItem(ACCESS_TOKEN);
     if (accessToken) {
-      setIsLogin(true);
+      fetchProfile();
+      setIsAuthenticated(true);
     }
   }, []);
 
@@ -25,7 +30,9 @@ const Header = () => {
       <div className="container">
         <div className="flex justify-between items-center">
           <div className="items-center gap-6 hidden lg:flex">
-            <img src={logo} alt="logo" className="w-24" />
+            <Link to="/">
+              <img src={logo} alt="logo" className="w-24" />
+            </Link>
             <div className="relative">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3">
                 <svg
@@ -52,7 +59,7 @@ const Header = () => {
             </div>
           </div>
           <div className="flex flex-row-reverse lg:flex-row justify-between items-center lg:gap-10 w-full lg:w-auto">
-            {!isLogin ? (
+            {!isAuthenticated ? (
               <div className="flex gap-10">
                 <Link to="/login" className="font-bold">
                   Login
@@ -70,21 +77,27 @@ const Header = () => {
             <button type="button" onClick={handleMenuClick}>
               <MenuSvg />
             </button>
-            {isMenuOpen && (
+            {isMenuOpen && isAuthenticated && (
               <div className="absolute mt-12 top-4 ml-16 bg-white border border-gray-200 rounded-md shadow-lg">
                 <div className="py-1">
-                  <Link
-                    to="/dashboard"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Dashboard
-                  </Link>
-                  <Link
-                    to="/profile"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Profile
-                  </Link>
+                  {(userData.user_type === "admin" ||
+                    userData.user_type === "studio_owner") && (
+                    <Link
+                      to="/dashboard"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Dashboard
+                    </Link>
+                  )}
+                  {userData.user_type === "user" && (
+                    <Link
+                      to="/reservations"
+                      className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
+                    >
+                      Reservations
+                    </Link>
+                  )}
+
                   <Link
                     to="/logout"
                     className="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100"

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import LocationSvg from "../utils/svg/LocationSvg";
-import { ContextType, useContext } from "react";
+import api from "../../api";
+import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 interface StudioCardProps {
@@ -12,14 +13,12 @@ interface StudioCardProps {
   start_time: string;
   end_time: string;
   owner_id: number;
-  onDelete: () => void;
 }
 
-const StudioCard = ({
+const HomeStudioCard = ({
   img,
   title,
   location,
-  onDelete,
   path,
   owner_id,
 }: StudioCardProps) => {
@@ -37,10 +36,14 @@ const StudioCard = ({
 
   const handleDeleteClick = async () => {
     try {
-      onDelete();
+      // Make an API call to delete the studio
+      await api.delete(`studio/api/v1/delete/${path}`);
+      // Log message to indicate successful deletion
       console.log(`Studio with ID ${path} deleted successfully.`);
+      // You may also want to update the UI to reflect the deletion
     } catch (error) {
       console.error("Error deleting studio:", error);
+      // Handle error, such as displaying a notification to the user
     }
   };
   return (
@@ -65,20 +68,10 @@ const StudioCard = ({
           >
             Book now
           </button>
-
-          {isOwner && (
-            <button
-              type="button"
-              className="bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-full transition-colors duration-300"
-              onClick={handleDeleteClick}
-            >
-              Delete
-            </button>
-          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default StudioCard;
+export default HomeStudioCard;

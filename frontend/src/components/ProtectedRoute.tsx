@@ -4,15 +4,18 @@ import api from "../api";
 import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
 import { ReactNode, useEffect, useState } from "react";
 
+// Other imports...
+
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null); // Explicitly define isAuthorized as boolean or null
+  // const [userType, setUserType] = useState("user");
 
   useEffect(() => {
-    auth().catch(() => setIsAuthorized(false));
+    auth(); // Trigger auth function on mount
   }, []);
 
   const refreshToken = async () => {
-    const refreshToken = localStorage.getItems(REFRESH_TOKEN);
+    const refreshToken = localStorage.getItem(REFRESH_TOKEN); // Corrected method name
     try {
       const res = await api.post("/api/token/refresh/", {
         refresh: refreshToken,
@@ -37,7 +40,7 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
     }
     const decoded = jwtDecode(token);
     const tokenExpiration = decoded.exp;
-    const now = Date.now() / 100;
+    const now = Date.now() / 1000; // Divide by 1000 to get seconds
     if (tokenExpiration && tokenExpiration < now) {
       await refreshToken();
     } else {

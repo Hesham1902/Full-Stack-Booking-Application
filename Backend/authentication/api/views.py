@@ -13,8 +13,7 @@ class RegistrationView(generics.CreateAPIView):
 
 
 class LogoutView(APIView):
-    permission_classes = (IsAuthenticated)
-
+    permission_classes = (IsAuthenticated,)
     def post(self, request):
 
         try:
@@ -24,3 +23,11 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class UserProfileView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
