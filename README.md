@@ -16,44 +16,45 @@ This repository contains a full-stack project built with Django for the backend 
 
 2. Navigate to the backend directory:
    
-  ```
+```
     cd backend
-  ```
+```
 
 3. Create a virtual environment:
 
-   ```
+```
    python3 -m venv env
-   ```
+```
 
 4. Create a virtual environment:
 
-   ```
+```
    source env/bin/activate  # for Unix/Mac
    env\Scripts\activate  # for Windows
-   ```
+```
 
 5. Install dependencies:
 
-   ```
+```
    pip install -r requirements.txt
-   ```
+```
 6. Apply migrations:
 
-   ```
+```
    python manage.py migrate
-   ```
+```
    
 7. Create a superuser:
-   ```
+   
+```
     python manage.py runserver
-   ```
+```
 
 9. Start the backend server:
+    
 ```
   python manage.py runserver
 ```
-
 
 ### Frontend Setup
 
@@ -65,16 +66,17 @@ This repository contains a full-stack project built with Django for the backend 
 
 2. Install dependencies:
    
-  ```
+```
     npm install
-  ```
+```
 3. Start the frontend server:
 
-   ```
+```
    npm start
-   ```
+```
 
 ### Accessing the Application
+
 - Backend server: http://localhost:8000/
 - Frontend server: http://localhost:3000/
 
