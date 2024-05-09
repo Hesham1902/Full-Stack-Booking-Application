@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import LocationSvg from "../utils/svg/LocationSvg";
-import { ContextType, useContext } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 interface StudioCardProps {

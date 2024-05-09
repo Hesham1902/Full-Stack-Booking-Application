@@ -32,6 +32,7 @@ const StudioInfo = ({ studioDets }: { studioDets: IStudioDets }) => {
         <Link
           to="/select-time"
           className="bg-primary text-white font-medium py-2 px-8 rounded-full"
+          state={{ studioDets }}
         >
           Book now
         </Link>

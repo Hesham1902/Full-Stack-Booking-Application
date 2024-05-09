@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import api from "../api";
 
 export interface IStudioDets {
+  id?: number;
   name: string;
   title: string;
   address: string;
