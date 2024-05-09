@@ -19,19 +19,20 @@ This repository contains a full-stack project built with Django for the backend 
   ```
     cd backend
   ```
+
 3. Create a virtual environment:
 
    ```
    python3 -m venv env
    ```
-   
+
 4. Create a virtual environment:
 
    ```
    source env/bin/activate  # for Unix/Mac
    env\Scripts\activate  # for Windows
    ```
-   
+
 5. Install dependencies:
 
    ```
