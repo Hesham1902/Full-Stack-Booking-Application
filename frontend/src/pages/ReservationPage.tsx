@@ -1,34 +1,50 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import MainLayout from "../components/layouts/MainLayout";
 import CancelBigSvg from "../components/utils/svg/CancelBigSvg";
 import LocationBigSvg from "../components/utils/svg/LocationBigSvg";
-import check from "/images/check.png";
-import studio from "/images/studio.png";
-import { AuthContext } from "../context/AuthContext";
-import { ReservationContext } from "../context/ReservationContext";
-import { Reservation } from "../types";
-import SuccessCard from "../components/Succes/SuccessCard";
 
-const SuccessPage = () => {
-  const { userData } = useContext(AuthContext);
-  const { reservations, fetchReservations } = useContext(ReservationContext);
+import studio from "/images/studio.png";
+import { ReservationContext } from "../context/ReservationContext";
+import { IReservationContext, Reservation } from "../types";
+import api from "../api";
+import { useNavigate } from "react-router-dom";
+
+const ReservationsPage = () => {
+  const { reservations, fetchReservations } =
+    useContext<IReservationContext>(ReservationContext);
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+
+  const handleCancel = async (reservationId: number) => {
+    try {
+      const response = await api.delete(
+        `/reservation/delete/${reservationId}/`
+      );
+      if (response.status === 204) {
+        // If deletion is successful, refetch reservations
+        fetchReservations();
+        // Redirect to a success page or display a message
+        navigate("/reservation/");
+      } else {
+        console.error("Failed to cancel reservation");
+      }
+    } catch (error) {
+      setError("Timeover you can't cancel the reservation now!");
+      console.error("Error occurred while cancelling reservation:", error);
+    }
+  };
 
   useEffect(() => {
     fetchReservations();
   }, []);
 
-  console.log(reservations);
-  console.log(userData);
   return (
     <MainLayout>
-      <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6">
-        <div className="flex flex-col gap-6">
-          <SuccessCard label="Upcoming appointments" />
-          <SuccessCard label="Past appointments" />
-        </div>
+      <div className="grid grid-cols-1 gap-6">
+        {error && <p className="text-red-800 text-lg text-center">{error}</p>}{" "}
         <div className="mt-16">
           {reservations.map((reservation: Reservation, index: number) => (
-            <div key={index} className="bg-white p-6 rounded-lg mb-6">
+            <div key={index} className="bg-white p-6 rounded-lg mb-4">
               <h1 className="text-3xl font-semibold">
                 Reservation ID: {reservation.id}
               </h1>
@@ -60,7 +76,10 @@ const SuccessPage = () => {
               </div>
               <div className="flex justify-between items-center mt-6">
                 <div className="flex items-center gap-4">
-                  <button className="flex items-center gap-2 px-3 py-2 bg-red-500 text-white rounded-md">
+                  <button
+                    onClick={() => handleCancel(reservation.id)}
+                    className="flex items-center gap-2 px-3 py-2 bg-red-500 text-white rounded-md"
+                  >
                     <CancelBigSvg />
                     <span>Cancel</span>
                   </button>
@@ -69,17 +88,17 @@ const SuccessPage = () => {
                   </div>
                   <p>Directions</p>
                 </div>
-                <div className="p-2 pr-3 bg-[#2EC114] text-white w-fit rounded-full flex items-center gap-1">
-                  <img src={check} alt="check" />
-                  <p className="font-semibold">Confirmed</p>
-                </div>
               </div>
               <div className="flex justify-between items-start mt-14 mb-6">
                 <div>
                   <h1 className="text-2xl font-semibold">Number of days</h1>
                   <p>{reservation.reserved_dates.length} days</p>
                 </div>
-                <div>{reservation.total_price}</div>
+                <div>
+                  {" "}
+                  <p>Total Price: </p>
+                  {reservation.total_price}
+                </div>
               </div>
               <hr />
             </div>
@@ -95,4 +114,4 @@ const SuccessPage = () => {
   );
 };
 
-export default SuccessPage;
+export default ReservationsPage;

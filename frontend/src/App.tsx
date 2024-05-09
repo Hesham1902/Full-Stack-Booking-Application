@@ -18,6 +18,8 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthContextProvider } from "./context/AuthContext";
 import UserReservations from "./components/Reservations/UserReservations";
+import { ReservationContextProvider } from "./context/ReservationContext";
+import ReservationsPage from "./pages/ReservationPage";
 
 const Logout = () => {
   useEffect(() => {
@@ -36,7 +38,7 @@ const Logout = () => {
           refresh_token: refreshToken,
         });
 
-        if (response.status !== 200) {
+        if (response.data.error) {
           console.error("Logout failed with status:", response.status);
         } else {
           console.log("Logout successful.");
@@ -59,54 +61,56 @@ const Logout = () => {
 function App() {
   return (
     <AuthContextProvider>
-      <Router>
-        <Routes>
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <HomePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/studios/:id" element={<StudioDetailsPage />} />
-          <Route
-            path="/select-time"
-            element={
-              <ProtectedRoute>
-                <SelectTimePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/success"
-            element={
-              <ProtectedRoute>
-                <SuccessPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/reservations"
-            element={
-              <ProtectedRoute>
-                <UserReservations />
-              </ProtectedRoute>
-            }
-          ></Route>
-        </Routes>
-      </Router>
+      <ReservationContextProvider>
+        <Router>
+          <Routes>
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <HomePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/studios/:id" element={<StudioDetailsPage />} />
+            <Route
+              path="/select-time"
+              element={
+                <ProtectedRoute>
+                  <SelectTimePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/success"
+              element={
+                <ProtectedRoute>
+                  <SuccessPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reservations"
+              element={
+                <ProtectedRoute>
+                  <ReservationsPage />
+                </ProtectedRoute>
+              }
+            ></Route>
+          </Routes>
+        </Router>
+      </ReservationContextProvider>
     </AuthContextProvider>
   );
 }

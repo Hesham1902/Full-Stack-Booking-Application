@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import api from "../api";
 
 export interface IStudioDets {
-  id?: number;
+  id: number;
   name: string;
   title: string;
   address: string;
@@ -23,6 +23,7 @@ function StudioDetailsPage() {
   const { id } = useParams();
 
   const [studioDets, setStudioDets] = useState<IStudioDets>({
+    id: 0,
     name: "",
     title: "",
     address: "",

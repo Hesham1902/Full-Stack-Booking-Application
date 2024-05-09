@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 interface RegisterInputs {
   username: string;
   email: string;
@@ -23,11 +25,19 @@ export interface studio {
   status: boolean;
   owner_id: number;
 }
+export interface IReservationContext {
+  reservations: Reservation[];
+  setReservations: Dispatch<SetStateAction<Reservation[]>>;
+  fetchReservations: () => Promise<void>;
+}
 
 export interface Reservation {
   id: number;
-  studio_id: number;
+  studio: studio;
   reserved_dates: string[];
+  total_price: string;
+  created_at: string;
+  user: number;
 }
 
 export interface UserData {
