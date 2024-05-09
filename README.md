@@ -1,5 +1,4 @@
-https://www.postman.com/hesham09/workspace/apis/collection/29514304-49c1c522-ae74-4fe7-af3c-b6796b7149be?action=share&creator=29514304
-
+## Postman API Documentation Link (https://www.postman.com/hesham09/workspace/apis/collection/29514304-49c1c522-ae74-4fe7-af3c-b6796b7149be?action=share&creator=29514304)
 # Django Full Stack Project
 
 This repository contains a full-stack project built with Django for the backend and a frontend framework (e.g., React) for the frontend.
@@ -86,6 +85,11 @@ This repository contains a full-stack project built with Django for the backend 
 - Use the frontend application to interact with the backend APIs.
 
 
-## Additional Notes
+## Hardest Challenge:
 
-Postman API Documentation Link (https://www.postman.com/hesham09/workspace/apis/collection/29514304-49c1c522-ae74-4fe7-af3c-b6796b7149be?action=share&creator=29514304)
+- Creating the reservation system for the studio booking API was quite a puzzle. The biggest challenge was Making sure users could reserve studio slots without overlapping with existing bookings or trying to book on days when the studio was closed.
+
+To tackle this, I built an algorithm that could check if a slot was available for the desired date, considering existing reservations. Plus, I integrated the studio's non-working days into the system, so users wouldn't accidentally book during downtime.
+
+
+
