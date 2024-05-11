@@ -14,7 +14,7 @@ const UserReservations = () => {
     try {
       const response = await api.get("reservation/my/");
       setReservations(response.data);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching reservations:", error);
       setError(error!.message || "An error occurred.");
     }
