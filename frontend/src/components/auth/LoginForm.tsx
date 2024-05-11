@@ -13,7 +13,7 @@ import { AuthContext } from "../../context/AuthContext";
 const LoginForm = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
-  const { fetchProfile } = useContext(AuthContext);
+  const { fetchProfile } = useContext<any>(AuthContext);
   const {
     register,
     handleSubmit,
