@@ -13,10 +13,7 @@ const Modal = ({ showModal, setShowModal, children }: any) => {
             className="modal justify-center items-center flex overflow-hidden fixed inset-0 z-50"
             onClick={handleClick}
           >
-            <div className="relative w-auto my-6 mx-auto">
-              {/*content*/}
-              {children}
-            </div>
+            <div className="relative w-auto my-6 mx-auto">{children}</div>
           </div>
           <div className="opacity-50 fixed inset-0 z-40 bg-black"></div>
         </>
