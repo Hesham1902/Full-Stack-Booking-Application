@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import MainLayout from "../components/layouts/MainLayout";
 import OwnerStudioList from "../components/studio/OwnerStudioList";
-import { Context, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import api from "../api";
 import { ACCESS_TOKEN } from "../constants";
 import { AuthContext } from "../context/AuthContext";

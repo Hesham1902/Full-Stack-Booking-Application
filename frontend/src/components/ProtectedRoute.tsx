@@ -10,8 +10,7 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     auth();
-    console.log("a7a");
-  });
+  }, []);
 
   const refreshToken = async () => {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN);
@@ -19,10 +18,8 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
       const res = await api.post("/api/token/refresh/", {
         refresh: refreshToken,
       });
-      console.log(res.data);
       if (res.status === 200) {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
-        console.log(res.data.refresh);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
         setIsAuthorized(true);
       } else {
@@ -44,11 +41,8 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
     const decoded = jwtDecode(token);
     const tokenExpiration = decoded.exp;
     const now = Date.now() / 1000;
-    console.log({ tokenExpiration });
-    console.log({ now });
 
     if (tokenExpiration! < now) {
-      console.log("test");
       await refreshToken();
     } else {
       setIsAuthorized(true);

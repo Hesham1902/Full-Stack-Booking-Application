@@ -4,7 +4,7 @@ import { Reservation } from "../../types";
 
 const UserReservations = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
-  const [error, setError] = useState<string | null>(null); // Specify the error type as string | null
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchReservations();
@@ -13,11 +13,10 @@ const UserReservations = () => {
   const fetchReservations = async () => {
     try {
       const response = await api.get("reservation/my/");
-      console.log(response.data);
       setReservations(response.data);
     } catch (error) {
       console.error("Error fetching reservations:", error);
-      setError(error.message || "An error occurred.");
+      setError(error!.message || "An error occurred.");
     }
   };
 
@@ -29,11 +28,10 @@ const UserReservations = () => {
       ) : reservations.length === 0 ? (
         <p>You don't have any reservations yet.</p>
       ) : (
-        // Render your list of reservations here (assuming reservations is an array of objects)
         <ul>
           {reservations.map((reservation) => (
             <li key={reservation.id}>
-              {reservation.reserved_dates} - {reservation.date}
+              {reservation.reserved_dates} - {reservation.created_at}
             </li>
           ))}
         </ul>

@@ -1,10 +1,7 @@
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
-// import required modules
 import { FreeMode } from "swiper/modules";
 import studio from "/images/studio.png";
 import studio1 from "/images/studio1.png";
