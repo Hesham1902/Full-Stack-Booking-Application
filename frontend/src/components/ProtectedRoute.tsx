@@ -10,11 +10,7 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     auth();
-<<<<<<< HEAD
   }, []);
-=======
-  });
->>>>>>> 8188b7b (last frontend update)
 
   const refreshToken = async () => {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN);
