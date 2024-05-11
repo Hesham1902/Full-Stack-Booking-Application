@@ -1,24 +1,25 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import MainLayout from "../components/layouts/MainLayout";
 import CancelBigSvg from "../components/utils/svg/CancelBigSvg";
 import LocationBigSvg from "../components/utils/svg/LocationBigSvg";
 import check from "/images/check.png";
-import studio from "/images/studio.png";
+import studioImg from "/images/studio.png";
 import { AuthContext } from "../context/AuthContext";
 import { ReservationContext } from "../context/ReservationContext";
 import { Reservation } from "../types";
 import SuccessCard from "../components/Succes/SuccessCard";
 
 const SuccessPage = () => {
-  const { userData } = useContext(AuthContext);
-  const { reservations, fetchReservations } = useContext(ReservationContext);
+  const { userData } = useContext<any>(AuthContext);
+  const { reservations, fetchReservations } =
+    useContext<any>(ReservationContext);
+  const [studio, setStudio] = useState();
 
   useEffect(() => {
     fetchReservations();
+    console.log(reservations);
   }, []);
 
-  console.log(reservations);
-  console.log(userData);
   return (
     <MainLayout>
       <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6">
@@ -36,7 +37,7 @@ const SuccessPage = () => {
                 <div className="flex items-center gap-4">
                   <div className="w-28 h-28">
                     <img
-                      src={studio}
+                      src={studioImg}
                       alt="Studio"
                       className="w-full h-full rounded-lg"
                     />

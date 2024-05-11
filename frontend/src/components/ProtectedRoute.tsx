@@ -1,27 +1,29 @@
 import { jwtDecode } from "jwt-decode";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../api";
 import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
 import { ReactNode, useEffect, useState } from "react";
 
-// Other imports...
-
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null); // Explicitly define isAuthorized as boolean or null
-  // const [userType, setUserType] = useState("user");
+  const navigate = useNavigate();
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
   useEffect(() => {
-    auth(); // Trigger auth function on mount
-  }, []);
+    auth();
+    console.log("a7a");
+  });
 
   const refreshToken = async () => {
-    const refreshToken = localStorage.getItem(REFRESH_TOKEN); // Corrected method name
+    const refreshToken = localStorage.getItem(REFRESH_TOKEN);
     try {
       const res = await api.post("/api/token/refresh/", {
         refresh: refreshToken,
       });
+      console.log(res.data);
       if (res.status === 200) {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
+        console.log(res.data.refresh);
+        localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
         setIsAuthorized(true);
       } else {
         setIsAuthorized(false);
@@ -36,12 +38,17 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
     const token = localStorage.getItem(ACCESS_TOKEN);
     if (!token) {
       setIsAuthorized(false);
+      navigate("/login");
       return;
     }
     const decoded = jwtDecode(token);
     const tokenExpiration = decoded.exp;
-    const now = Date.now() / 1000; // Divide by 1000 to get seconds
-    if (tokenExpiration && tokenExpiration < now) {
+    const now = Date.now() / 1000;
+    console.log({ tokenExpiration });
+    console.log({ now });
+
+    if (tokenExpiration! < now) {
+      console.log("test");
       await refreshToken();
     } else {
       setIsAuthorized(true);
@@ -51,7 +58,8 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   if (isAuthorized === null) {
     return <div>Loading...</div>;
   }
-  return isAuthorized ? children : <Navigate to="/login" />;
+
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;

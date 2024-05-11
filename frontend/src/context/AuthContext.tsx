@@ -3,9 +3,13 @@ import api from "../api";
 
 export const AuthContext = createContext();
 
-export const AuthContextProvider = ({ children }) => {
+export const AuthContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [userData, setUserData] = useState("user");
-  
+
   const fetchProfile = async () => {
     try {
       const response = await api.get("/auth/profile");

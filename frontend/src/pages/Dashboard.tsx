@@ -11,7 +11,7 @@ const Dashboard = () => {
   const [studios, setStudios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { userData }: { userData: UserData } = useContext(AuthContext);
+  const { userData }: { userData: UserData } = useContext<any>(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const Dashboard = () => {
         if (!token) {
           navigate("/login");
         }
-      } catch (error) {
+      } catch (error: any) {
         setError(error);
         setLoading(false);
       }
@@ -38,7 +38,7 @@ const Dashboard = () => {
     fetchStudios();
   }, [userData.user_type, navigate]);
 
-  const handleDeleteClick = async (studioId: number) => {
+  const handleDelete = async (studioId: number) => {
     try {
       await api.delete(`studio/api/v1/delete/${studioId}`);
       setStudios((prevStudios) =>
@@ -68,7 +68,7 @@ const Dashboard = () => {
         <p>Error: {JSON.stringify(error)}</p>
       ) : (
         <>
-          <OwnerStudioList studios={studios} onDelete={handleDeleteClick} />
+          <OwnerStudioList studios={studios} onDelete={handleDelete} />
         </>
       )}
     </MainLayout>

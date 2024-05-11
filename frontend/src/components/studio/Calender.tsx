@@ -47,7 +47,9 @@ const Calender = ({ studio }: CalendarProps) => {
     );
 
     setArrDate(datesFormat);
-    bookSelectedDates(datesFormat);
+    console.log(arrDates);
+
+    bookSelectedDates(arrDates);
   };
 
   const bookSelectedDates = async (dates: string[]) => {

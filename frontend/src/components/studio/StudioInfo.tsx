@@ -40,12 +40,9 @@ const StudioInfo = ({ studioDets }: { studioDets: IStudioDets }) => {
       <hr />
 
       <div className="flex gap-4 mt-4">
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3">
           <LocationSvg />
-          <p>
-            <br />
-            {studioDets.address}
-          </p>
+          <p>{studioDets.address}</p>
         </div>
         <div className="flex gap-4">
           <TimeSvg />

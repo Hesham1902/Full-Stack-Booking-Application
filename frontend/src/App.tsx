@@ -3,6 +3,7 @@ import {
   Route,
   Routes,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import "./App.css";
 import RegisterPage from "./pages/RegisterPage";
@@ -17,46 +18,10 @@ import { useEffect } from "react";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthContextProvider } from "./context/AuthContext";
-import UserReservations from "./components/Reservations/UserReservations";
+// import UserReservations from "./components/Reservations/UserReservations";
 import { ReservationContextProvider } from "./context/ReservationContext";
 import ReservationsPage from "./pages/ReservationPage";
-
-const Logout = () => {
-  useEffect(() => {
-    const handleLogout = async () => {
-      try {
-        const refreshToken = localStorage.getItem(REFRESH_TOKEN);
-
-        if (!refreshToken) {
-          console.warn(
-            "Refresh token not found in localStorage. Skipping logout."
-          );
-          return;
-        }
-
-        const response = await api.post("auth/api/logout/", {
-          refresh_token: refreshToken,
-        });
-
-        if (response.data.error) {
-          console.error("Logout failed with status:", response.status);
-        } else {
-          console.log("Logout successful.");
-        }
-
-        // Clear localStorage after successful logout
-        localStorage.clear();
-      } catch (error) {
-        console.error("Logout failed:", error);
-      }
-    };
-
-    // Call logout only on component mount (empty dependency array)
-    handleLogout();
-  }, []);
-
-  return <Navigate to="/login" />;
-};
+import AddStuidoPage from "./pages/AddStuidoPage";
 
 function App() {
   return (
@@ -66,7 +31,6 @@ function App() {
           <Routes>
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/logout" element={<Logout />} />
             <Route
               path="/"
               element={
@@ -105,6 +69,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ReservationsPage />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route
+              path="/add-studio"
+              element={
+                <ProtectedRoute>
+                  <AddStuidoPage />
                 </ProtectedRoute>
               }
             ></Route>

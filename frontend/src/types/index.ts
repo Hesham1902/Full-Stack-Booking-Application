@@ -47,4 +47,13 @@ export interface UserData {
   user_type: string;
 }
 
+export interface StudioInputs {
+  name: string;
+  start_time: string;
+  end_time: string;
+  price_per_day: number;
+  working_days: string;
+  address: string;
+}
+
 export { type RegisterInputs, type LoginInputs };

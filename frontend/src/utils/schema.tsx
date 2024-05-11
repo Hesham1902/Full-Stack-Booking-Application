@@ -15,3 +15,12 @@ export const LoginSchema = yup.object({
   username: yup.string().required("username is required"),
   password: yup.string().required("Password is required"),
 });
+
+export const StudioSchema = yup.object({
+  name: yup.string().required("Name is required"),
+  start_time: yup.string().required("Start time is required"),
+  end_time: yup.string().required("End time is required"),
+  price_per_day: yup.number().required("Price per day is required"),
+  working_days: yup.string().required("Working days is required"),
+  address: yup.string().required("Address is required"),
+});
