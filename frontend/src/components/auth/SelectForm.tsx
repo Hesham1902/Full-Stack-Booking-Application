@@ -1,7 +1,6 @@
 import { useState } from "react";
 import arrowDown from "/images/arrow_down.png";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SelectForm = ({ userType, setUserType }: any) => {
   const [showMenu, setShowMenu] = useState(false);
 

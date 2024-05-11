@@ -12,7 +12,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState<string | null>(null); // State to store error message
+  const [error, setError] = useState<string | null>(null);
   const { fetchProfile } = useContext(AuthContext);
   const {
     register,
@@ -35,7 +35,7 @@ const LoginForm = () => {
       fetchProfile();
       navigate("/");
     } catch (error) {
-      setError("Invalid username or password"); // Set error message if login fails
+      setError("Invalid username or password");
     }
   };
 

@@ -11,7 +11,6 @@ import SearchInput from "../utils/SearchInput";
 const Header: React.FC = ({ setSearchValue }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  // const [userType, setUserType] = useState<string | null>(null);
 
   const { userData, fetchProfile } = useContext<any>(AuthContext);
 

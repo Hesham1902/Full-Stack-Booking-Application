@@ -36,7 +36,6 @@ const RegisterForm = () => {
     password,
   }) => {
     try {
-      console.log({ username, email, password, user_type: userType });
       await api.post("auth/api/register/", {
         username,
         email,

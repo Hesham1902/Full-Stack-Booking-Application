@@ -21,9 +21,7 @@ const ReservationsPage = () => {
         `/reservation/delete/${reservationId}/`
       );
       if (response.status === 204) {
-        // If deletion is successful, refetch reservations
         fetchReservations();
-        // Redirect to a success page or display a message
         navigate("/reservation/");
       } else {
         console.error("Failed to cancel reservation");

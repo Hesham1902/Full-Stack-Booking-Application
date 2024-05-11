@@ -1,10 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
@@ -12,13 +6,10 @@ import HomePage from "./pages/HomePage";
 import StudioDetailsPage from "./pages/StudioDetailsPage";
 import SelectTimePage from "./pages/SelectTimePage";
 import SuccessPage from "./pages/SuccessPage";
-import api from "./api";
-import { REFRESH_TOKEN } from "./constants";
-import { useEffect } from "react";
+
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthContextProvider } from "./context/AuthContext";
-// import UserReservations from "./components/Reservations/UserReservations";
 import { ReservationContextProvider } from "./context/ReservationContext";
 import ReservationsPage from "./pages/ReservationPage";
 import AddStuidoPage from "./pages/AddStuidoPage";
