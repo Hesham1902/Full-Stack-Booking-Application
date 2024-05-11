@@ -10,7 +10,6 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     auth();
-    console.log("a7a");
   });
 
   const refreshToken = async () => {
